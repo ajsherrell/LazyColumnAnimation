@@ -1,4 +1,4 @@
-package com.ajsherrell.lazycolumnanimations0.ui.theme
+package com.ajsherrell.LazyColumnAnimations0.ui.theme
 
 import android.app.Activity
 import android.os.Build

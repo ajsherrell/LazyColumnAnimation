@@ -1,4 +1,4 @@
-package com.ajsherrell.lazycolumnanimations0
+package com.ajsherrell.LazyColumnAnimations0
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,4 +1,4 @@
-package com.ajsherrell.lazycolumnanimations0
+package com.ajsherrell.LazyColumnAnimations0
 
 import org.junit.Test
 
