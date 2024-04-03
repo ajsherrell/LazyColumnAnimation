@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -80,7 +81,7 @@ fun AnimalRow(animal: String, navController: NavController) {
             .clickable {
                 navController.navigate("animal_detail/$animal")
             }
-            .padding(8.dp)
+            .padding(4.dp)
             .background(Color.LightGray)
     ) {
         Text(
@@ -94,5 +95,14 @@ fun AnimalRow(animal: String, navController: NavController) {
 
 @Composable
 fun AnimalDetail(animal: String) {
-    Text(text = "Detail page for $animal")
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Green)
+    ) {
+        Text(
+            text = "Detail page for $animal",
+            modifier = Modifier.align(Alignment.Center)
+        )
+    }
 }
