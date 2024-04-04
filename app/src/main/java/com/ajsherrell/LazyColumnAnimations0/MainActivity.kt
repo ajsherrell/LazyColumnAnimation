@@ -6,11 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,12 +29,32 @@ import com.ajsherrell.LazyColumnAnimations0.ui.theme.LazyColumnAnimations0Theme
 
 class MainActivity : ComponentActivity() {
 
-    private val animals = listOf(
-        "Lion", "Tiger", "Elephant", "Giraffe", "Zebra",
-        "Kangaroo", "Panda", "Bear", "Monkey", "Gorilla",
-        "Cheetah", "Leopard", "Rhinoceros", "Hippopotamus", "Crocodile",
-        "Alligator", "Ostrich", "Eagle", "Penguin", "Dolphin",
-        "Whale", "Shark", "Octopus", "Jellyfish", "Starfish"
+    private val animals = mapOf(
+        "Lion" to Color.Yellow,
+        "Tiger" to Color(0xFFFFA500), // Orange
+        "Elephant" to Color.Gray,
+        "Giraffe" to Color(0xFFA52A2A), // Brown
+        "Zebra" to Color.LightGray,
+        "Kangaroo" to Color(0xFFA52A2A), // Brown
+        "Panda" to Color.LightGray,
+        "Bear" to Color(0xFFA52A2A), // Brown
+        "Monkey" to Color(0xFFA52A2A), // Brown
+        "Gorilla" to Color.Magenta,
+        "Cheetah" to Color.Yellow,
+        "Leopard" to Color.Magenta,
+        "Rhinoceros" to Color.Gray,
+        "Hippopotamus" to Color.Gray,
+        "Crocodile" to Color.Green,
+        "Alligator" to Color.Green,
+        "Ostrich" to Color(0xFFA52A2A), // Brown
+        "Eagle" to Color(0xFFA52A2A), // Brown
+        "Penguin" to Color.LightGray,
+        "Dolphin" to Color.Gray,
+        "Whale" to Color.Blue,
+        "Shark" to Color.Gray,
+        "Octopus" to Color(0xFF800080), // Purple
+        "Jellyfish" to Color(0xFFFFC0CB), // Pink
+        "Starfish" to Color(0xFFFFA500) // Orange
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +75,9 @@ class MainActivity : ComponentActivity() {
 
                         composable("animal_detail/{animal}") { backStackEntry ->
                             val animal = backStackEntry.arguments?.getString("animal")
+                            val color = animals[animal] ?: Color.LightGray
                             if (animal != null) {
-                                AnimalDetail(animal = animal)
+                                AnimalDetail(animal = animal, color = color)
                             }
                         }
                     }
@@ -65,16 +88,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AnimalList(animals: List<String>, navController: NavController) {
+fun AnimalList(animals: Map<String, Color>, navController: NavController) {
     LazyColumn {
-        items(animals) { animal ->
-            AnimalRow(animal = animal, navController = navController)
+        items(animals.keys.toList()) { animal ->
+            val color = animals[animal] ?: Color.LightGray
+            AnimalRow(animal = animal, color = color, navController = navController)
         }
     }
 }
 
 @Composable
-fun AnimalRow(animal: String, navController: NavController) {
+fun AnimalRow(animal: String, color: Color, navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,7 +106,7 @@ fun AnimalRow(animal: String, navController: NavController) {
                 navController.navigate("animal_detail/$animal")
             }
             .padding(4.dp)
-            .background(Color.LightGray)
+            .background(color = color)
     ) {
         Text(
             text = animal,
@@ -94,15 +118,23 @@ fun AnimalRow(animal: String, navController: NavController) {
 }
 
 @Composable
-fun AnimalDetail(animal: String) {
+fun AnimalDetail(animal: String, color: Color) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Green)
+            .background(color)
     ) {
         Text(
             text = "Detail page for $animal",
             modifier = Modifier.align(Alignment.Center)
         )
+        Button(
+            onClick = { /* Do something when button is clicked */ },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(PaddingValues(bottom = 16.dp))
+        ) {
+            Text(text = "Color")
+        }
     }
 }
