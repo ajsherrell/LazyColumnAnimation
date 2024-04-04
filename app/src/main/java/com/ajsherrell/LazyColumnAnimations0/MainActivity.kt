@@ -3,6 +3,8 @@ package com.ajsherrell.LazyColumnAnimations0
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,6 +19,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -77,7 +83,7 @@ class MainActivity : ComponentActivity() {
                             val animal = backStackEntry.arguments?.getString("animal")
                             val color = animals[animal] ?: Color.LightGray
                             if (animal != null) {
-                                AnimalDetail(animal = animal, color = color)
+                                AnimalDetail(animal = animal, initialColor = color)
                             }
                         }
                     }
@@ -118,18 +124,29 @@ fun AnimalRow(animal: String, color: Color, navController: NavController) {
 }
 
 @Composable
-fun AnimalDetail(animal: String, color: Color) {
+fun AnimalDetail(animal: String, initialColor: Color) {
+    val colors = listOf(Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Cyan, Color.Magenta) // Add more colors if needed
+    var currentColor by remember { mutableStateOf(initialColor) }
+    val animatedColor by animateColorAsState(
+        targetValue = currentColor,
+        animationSpec = tween(durationMillis = 2000), // 2000 milliseconds = 2 seconds
+        label = ""
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color)
+            .background(animatedColor)
     ) {
         Text(
             text = "Detail page for $animal",
             modifier = Modifier.align(Alignment.Center)
         )
         Button(
-            onClick = { /* Do something when button is clicked */ },
+            onClick = {
+                // Update the color to a random one from the list when the button is clicked
+                currentColor = colors.random()
+            },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(PaddingValues(bottom = 16.dp))
